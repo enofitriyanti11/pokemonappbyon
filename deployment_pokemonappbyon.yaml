@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemonappbyon-deployment
+  namespace: development
+  labels:
+    app: pokemonappbyon
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pokemonappbyon
+  template:
+    metadata:
+      labels:
+        app: pokemonappbyon
+    spec:
+      containers:
+      - name: pokemonappbyon
+        image: enofitriyanti11/pokemonappbyon:_TAG_
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemonappbyon-service
+  namespace: development
+spec:
+  selector:
+    app: pokemonappbyon
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP
